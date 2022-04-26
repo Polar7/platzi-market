@@ -20,7 +20,7 @@ public class PurchaseService {
         return compraRepository.getAll();
     }
 
-    public Optional<List<Purchase>> getByCliente(String clientId) {
+    public Optional<List<Purchase>> getByClient(String clientId) {
         return compraRepository.getByCliente(clientId);
     }
 

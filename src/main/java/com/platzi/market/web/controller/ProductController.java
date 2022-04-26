@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @RestController
 @RequestMapping("/products")
@@ -23,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    @ApiOperation("Get all supermarket products")
+    @ApiOperation("value = Get all supermarket products")
     @ApiResponse(code = 200, message = "OK")
     public ResponseEntity<List<Product>> getAll(){
         return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
@@ -37,7 +38,7 @@ public class ProductController {
     })
     public ResponseEntity<Product> getProduct(@ApiParam(value = "The id of the product", required = true, example = "7") @PathVariable("id") int productId ){
         /*
-        return productService.getProduct(productId)
+        return productService.getProduct(productId).filter(Predicate.not(List::isEmpty)) //evalua si la lista no está vacia
                 .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
          */
@@ -47,7 +48,7 @@ public class ProductController {
 
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<Product>> getByCategory(@PathVariable("categoryId") int categoryId){
-        return productService.getByCategory(categoryId)
+        return productService.getByCategory(categoryId).filter(Predicate.not(List::isEmpty))
                 .map(product -> new ResponseEntity<>(product, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

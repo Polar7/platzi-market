@@ -1,6 +1,5 @@
 package com.platzi.market.web.controller;
 
-import com.platzi.market.domain.Product;
 import com.platzi.market.domain.Purchase;
 import com.platzi.market.domain.service.PurchaseService;
 import org.springframework.http.HttpStatus;
@@ -8,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @RestController
 @RequestMapping("/purchases")
@@ -26,7 +26,7 @@ public class PurchaseController {
 
     @GetMapping("/cliente/{clientId}")
     public ResponseEntity<List<Purchase>> getByCliente(@PathVariable("clientId") String clientId){
-        return purchaseService.getByCliente(clientId)
+        return purchaseService.getByClient(clientId).filter(Predicate.not(List::isEmpty))
                 .map(purchases -> new ResponseEntity<>(purchases, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

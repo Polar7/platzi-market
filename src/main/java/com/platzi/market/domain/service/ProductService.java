@@ -2,6 +2,7 @@ package com.platzi.market.domain.service;
 
 import com.platzi.market.domain.Product;
 import com.platzi.market.domain.repository.ProductRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,28 +34,27 @@ public class ProductService {
     }
 
     public boolean delete(int productId){
+        try {
+            productRepository.delete(productId);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
+    }
+     /*
+    Solucion no optima para delete
         return getProduct(productId).map(product -> {
             productRepository.delete(productId);
             return true;
         }).orElse(false);
-    /*
-        if(getProduct(productId).isPresent()) {
-            productRepository.delete(productId);
-            return true;
-        }else{
-             return false;
-        }
-
      */
 
-        /* Solucion optima
+        /* Solucion optima para delete
         try {
             productRepository.delete(productId);
-            returntrue;
+            return true;
         } catch (EmptyResultDataAccessException e) {
-            returnfalse;
+            return false;
         }
          */
-
-    }
 }
