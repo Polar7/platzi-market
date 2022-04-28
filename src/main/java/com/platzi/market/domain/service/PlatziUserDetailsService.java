@@ -16,7 +16,7 @@ public class PlatziUserDetailsService implements UserDetailsService {
     private static List<User> users = new ArrayList();
 
     public PlatziUserDetailsService() {
-        users.add(new User("alejandro", "{noop}platzi", new ArrayList<>()));
+        users.add(new User("jean", "{noop}platzi", new ArrayList<>()));
     }
 
     @Override
